@@ -1,0 +1,55 @@
+.app-container {
+  min-height: 100vh;
+  background-color: #020617;
+}
+
+.loader-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Global improvements */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+button:active {
+  transform: scale(0.98);
+}
