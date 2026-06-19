@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useMap, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Navigation, Target, LogOut, Zap, AlertCircle } from 'lucide-react';
+import { Navigation, Target, LogOut, AlertCircle } from 'lucide-react';
 import { fetchRoute } from '../services/routeService';
 import RoutePolyline from './RoutePolyline';
 

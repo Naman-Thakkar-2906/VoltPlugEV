@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { 
-  BarChart2, TrendingUp, DollarSign, Calendar, 
+  DollarSign, Calendar, 
   ArrowUpRight, PieChart, Activity
 } from 'lucide-react';
 import Loader from '../components/Loader';

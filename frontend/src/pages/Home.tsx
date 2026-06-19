@@ -41,7 +41,6 @@ const Home = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   
   const [showRoute, setShowRoute] = useState(false);
-  const [routeInfo, setRouteInfo] = useState<{ distance: string; time: string } | null>(null);
   const [isNavigating, setIsNavigating] = useState(false);
   const [lastBookingId, setLastBookingId] = useState<string | null>(null);
   const [bookingStatus, setBookingStatus] = useState<'Pending' | 'Approved' | 'Rejected' | 'Confirmed' | null>(null);
@@ -170,7 +169,6 @@ const Home = () => {
     setSelectedStation(station);
     setIsBooking(false);
     setShowRoute(false);
-    setRouteInfo(null);
     setIsNavigating(false);
     setMapCenter([station.location.coordinates[1], station.location.coordinates[0]]);
     setMapZoom(16);
@@ -212,7 +210,7 @@ const Home = () => {
   };
 
   const handleRouteInfo = (info: { distance: string; time: string }) => {
-    setRouteInfo(info);
+    console.log('Route info:', info);
   };
 
   const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {

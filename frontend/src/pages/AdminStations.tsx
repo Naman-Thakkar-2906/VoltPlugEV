@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { 
   Plus, Edit, Trash2, Eye, MapPin, Search, X, 
-  Zap, DollarSign, Calendar, Activity, Info, Clock, CheckCircle
+  Zap, Activity, Info
 } from 'lucide-react';
 import Loader from '../components/Loader';
 import EmptyState from '../components/EmptyState';

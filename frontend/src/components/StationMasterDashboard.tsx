@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api/axios';
-import { Check, X, Clock, Calendar, Car, Zap, TrendingUp, Users, CheckCircle } from 'lucide-react';
+import { Check, X, Clock, Car, TrendingUp, Users, CheckCircle } from 'lucide-react';
 import Loader from './Loader';
 
 interface Booking {

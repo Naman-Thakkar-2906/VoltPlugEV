@@ -1,9 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '../api/axios';
-import { Check, X, Clock, Calendar, Car, Zap, TrendingUp, Users, CheckCircle, MapPin, AlertCircle } from 'lucide-react';
+import { Check, X, Clock, Calendar, Car, TrendingUp, Users, CheckCircle, MapPin, AlertCircle } from 'lucide-react';
 import Loader from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
 import { socketService } from '../services/socket';
+
+export type BookingStatus =
+  | "Pending"
+  | "Approved"
+  | "Rejected"
+  | "Confirmed"
+  | "Completed"
+  | "Cancelled";
 
 interface Booking {
   _id: string;
@@ -21,7 +29,7 @@ interface Booking {
   startTime: string;
   endTime: string;
   totalAmount: number;
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Confirmed' | 'Completed' | 'Cancelled';
+  status: BookingStatus;
   paymentStatus?: 'Pending' | 'Paid' | 'Failed' | 'Refunded';
   bookingConfirmed?: boolean;
   createdAt: string;
@@ -108,7 +116,7 @@ const StationMasterDashboard = () => {
 
       socketService.on('paymentUpdated', (data: { bookingId: string, paymentStatus: any, bookingConfirmed: boolean }) => {
         setBookings(prev => {
-          const updated = prev.map(b => b._id === data.bookingId ? { ...b, paymentStatus: data.paymentStatus, bookingConfirmed: data.bookingConfirmed } : b);
+          const updated = prev.map((b): Booking => b._id === data.bookingId ? { ...b, paymentStatus: data.paymentStatus, bookingConfirmed: data.bookingConfirmed } : b);
           calculateStats(updated);
           return updated;
         });
@@ -116,7 +124,7 @@ const StationMasterDashboard = () => {
 
       socketService.on('bookingUpdated', (updatedBooking: Booking) => {
         setBookings(prev => {
-          const updated = prev.map(b => b._id === updatedBooking._id ? { ...b, ...updatedBooking } : b);
+          const updated = prev.map((b): Booking => b._id === updatedBooking._id ? { ...b, ...updatedBooking } : b);
           calculateStats(updated);
           return updated;
         });
@@ -138,7 +146,7 @@ const StationMasterDashboard = () => {
       if (response.success) {
         showToast('Booking Approved Successfully');
         // Instant UI Update
-        const updatedBookings = bookings.map(b => b._id === id ? { ...b, status: 'Approved' } : b);
+        const updatedBookings = bookings.map((b): Booking => b._id === id ? { ...b, status: 'Approved' } : b);
         setBookings(updatedBookings);
         calculateStats(updatedBookings);
       }
@@ -160,7 +168,7 @@ const StationMasterDashboard = () => {
       if (response.success) {
         showToast('Booking Rejected Successfully');
         // Instant UI Update
-        const updatedBookings = bookings.map(b => b._id === id ? { ...b, status: 'Rejected' } : b);
+        const updatedBookings = bookings.map((b): Booking => b._id === id ? { ...b, status: 'Rejected' } : b);
         setBookings(updatedBookings);
         calculateStats(updatedBookings);
         setShowRejectModal(false);
@@ -234,7 +242,7 @@ const StationMasterDashboard = () => {
         <div style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
           <div style={{ padding: '25px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 'bold' }}>Incoming Booking Requests</h2>
-            <button onClick={fetchBookings} style={{ background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', fontSize: '14px', fontWeight: '600' }}>Refresh Dashboard</button>
+            <button onClick={() => fetchBookings()} style={{ background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', fontSize: '14px', fontWeight: '600' }}>Refresh Dashboard</button>
           </div>
 
           <div style={{ overflowX: 'auto' }}>
