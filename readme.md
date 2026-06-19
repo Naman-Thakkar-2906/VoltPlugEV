@@ -10,35 +10,35 @@ The platform enables EV users to discover nearby charging stations, request char
 
 ## User Features
 
-* User authentication and JWT-based authorization
-* Nearby EV charging station discovery
-* Interactive map-based station visualization
-* Slot-based charging booking system
-* Realtime booking approval updates
-* Secure Razorpay payment integration
-* Live route navigation and tracking
-* Booking history and status management
+- User authentication and JWT-based authorization
+- Nearby EV charging station discovery
+- Interactive map-based station visualization
+- Slot-based charging booking system
+- Realtime booking approval updates
+- Secure Razorpay payment integration
+- Live route navigation and tracking
+- Booking history and status management
 
 ---
 
 ## Station Master Features
 
-* Dedicated station management dashboard
-* Realtime booking request handling
-* Approve / Reject booking workflow
-* Slot availability monitoring
-* Booking management and operational control
+- Dedicated station management dashboard
+- Realtime booking request handling
+- Approve / Reject booking workflow
+- Slot availability monitoring
+- Booking management and operational control
 
 ---
 
 ## Admin Features
 
-* Centralized admin dashboard
-* User management system
-* Station management system
-* Booking analytics and monitoring
-* Revenue and platform activity tracking
-* Realtime platform-wide updates using Socket.IO
+- Centralized admin dashboard
+- User management system
+- Station management system
+- Booking analytics and monitoring
+- Revenue and platform activity tracking
+- Realtime platform-wide updates using Socket.IO
 
 ---
 
@@ -46,9 +46,9 @@ The platform enables EV users to discover nearby charging stations, request char
 
 VoltPlugEV integrates:
 
-* Leaflet for interactive map rendering
-* OpenStreetMap for open-source geographical map data
-* OSRM for shortest-path route calculation and navigation
+- Leaflet for interactive map rendering
+- OpenStreetMap for open-source geographical map data
+- OSRM for shortest-path route calculation and navigation
 
 This enables realtime route visualization between users and charging stations.
 
@@ -60,10 +60,10 @@ The platform uses Razorpay for secure online payment processing.
 
 Features include:
 
-* Payment order creation
-* Backend payment verification
-* Secure transaction handling
-* Realtime payment status updates
+- Payment order creation
+- Backend payment verification
+- Secure transaction handling
+- Realtime payment status updates
 
 ---
 
@@ -71,39 +71,39 @@ Features include:
 
 ## Frontend
 
-* React.js
-* TypeScript
-* Tailwind CSS
-* React Router
-* Vite
+- React.js
+- TypeScript
+- Tailwind CSS
+- React Router
+- Vite
 
 ## Backend
 
-* Node.js
-* Express.js
+- Node.js
+- Express.js
 
 ## Database
 
-* MongoDB
-* Mongoose
+- MongoDB
+- Mongoose
 
 ## Realtime Communication
 
-* Socket.IO
+- Socket.IO
 
 ## Authentication
 
-* JWT Authentication
+- JWT Authentication
 
 ## Maps & Navigation
 
-* Leaflet
-* OpenStreetMap
-* OSRM
+- Leaflet
+- OpenStreetMap
+- OSRM
 
 ## Payments
 
-* Razorpay
+- Razorpay
 
 ---
 
@@ -161,11 +161,11 @@ Admin Monitors Platform Analytics
 
 # Security Features
 
-* JWT-based protected routes
-* Role-based authorization
-* Secure backend payment verification
-* Protected API endpoints
-* Environment variable configuration for secrets
+- JWT-based protected routes
+- Role-based authorization
+- Secure backend payment verification
+- Protected API endpoints
+- Environment variable configuration for secrets
 
 ---
 
@@ -173,10 +173,10 @@ Admin Monitors Platform Analytics
 
 Socket.IO enables:
 
-* instant booking synchronization
-* realtime approval updates
-* live admin monitoring
-* seamless dashboard communication
+- instant booking synchronization
+- realtime approval updates
+- live admin monitoring
+- seamless dashboard communication
 
 without requiring manual refreshes.
 
@@ -186,10 +186,10 @@ without requiring manual refreshes.
 
 The platform follows a modular MERN architecture with:
 
-* reusable frontend components
-* scalable backend controllers/services
-* REST API communication
-* realtime event-driven updates
+- reusable frontend components
+- scalable backend controllers/services
+- REST API communication
+- realtime event-driven updates
 
 ---
 
@@ -238,12 +238,12 @@ RAZORPAY_KEY_SECRET=YOUR_SECRET
 
 # Future Scope
 
-* AI-based charging station recommendation
-* Smart slot prediction system
-* IoT-based live charger monitoring
-* EV battery analytics
-* Mobile application support
-* Dynamic pricing system
+- AI-based charging station recommendation
+- Smart slot prediction system
+- IoT-based live charger monitoring
+- EV battery analytics
+- Mobile application support
+- Dynamic pricing system
 
 ---
 
@@ -261,10 +261,10 @@ https://github.com/Naman-Thakkar-2906
 
 # Project Highlights
 
-* Full-stack MERN application
-* Realtime Socket.IO workflows
-* Razorpay payment integration
-* Live map tracking system
-* Role-based dashboards
-* Admin analytics system
-* Production-oriented architecture
+- Full-stack MERN application
+- Realtime Socket.IO workflows
+- Razorpay payment integration
+- Live map tracking system
+- Role-based dashboards
+- Admin analytics system
+- Production-oriented architecture

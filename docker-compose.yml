@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: voltplug-backend
+
+    restart: unless-stopped
+
+    env_file:
+      - ./backend/.env
+
+    ports:
+      - "5000:5000"
+
+    networks:
+      - voltplug-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: voltplug-frontend
+
+    restart: unless-stopped
+
+    env_file:
+      - ./frontend/.env
+
+    ports:
+      - "4173:4173"
+
+    depends_on:
+      - backend
+
+    networks:
+      - voltplug-network
+
+networks:
+  voltplug-network:
+    driver: bridge
