@@ -47,7 +47,7 @@ const Navbar = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                 <span style={{ fontSize: '12px', fontWeight: '600', color: 'white' }}>{user?.name}</span>
-                <span style={{ fontSize: '10px', color: '#94a3b8' }}>{user?.role.toUpperCase()}</span>
+                <span style={{ fontSize: '10px', color: '#94a3b8' }}>{user?.role?.toUpperCase()}</span>
              </div>
              <button onClick={handleLogout} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: '12px' }}>
                <LogOut size={18} />
