@@ -4,6 +4,7 @@ import { Check, X, Clock, Calendar, Car, TrendingUp, Users, CheckCircle, MapPin,
 import Loader from '../components/Loader';
 import { useAuth } from '../context/AuthContext';
 import { socketService } from '../services/socket';
+import { logger } from '../utils/logger';
 
 export type BookingStatus =
   | "Pending"
@@ -65,7 +66,7 @@ const StationMasterDashboard = () => {
         calculateStats(response.data);
       }
     } catch (error) {
-      console.error('Error fetching station bookings:', error);
+      logger.error('Error fetching station bookings:', error);
     } finally {
       if (!isSilent) setLoading(false);
     }
@@ -110,7 +111,7 @@ const StationMasterDashboard = () => {
           const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3');
           audio.play();
         } catch (e) {
-          console.log('Audio playback failed');
+          logger.log('Audio playback failed');
         }
       });
 
@@ -191,7 +192,7 @@ const StationMasterDashboard = () => {
   if (loading) return <Loader fullPage />;
 
   return (
-    <div style={{ padding: '30px', background: '#020617', minHeight: '100vh', color: 'white' }}>
+    <div className="smd-page">
       
       {/* Toast Notification */}
       {toast && (
@@ -216,14 +217,14 @@ const StationMasterDashboard = () => {
       )}
 
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <header style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <header className="smd-header">
           <div>
-            <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '10px' }}>Owner Operations</h1>
-            <p style={{ color: '#94a3b8' }}>Review requests and manage your charging station efficiency.</p>
+            <h1 style={{ fontWeight: 'bold', marginBottom: '10px' }}>Owner Operations</h1>
+            <p style={{ color: '#94a3b8', fontSize: 'var(--text-base)' }}>Review requests and manage your charging station efficiency.</p>
           </div>
           <button 
             onClick={() => window.location.href = '/'}
-            style={{ background: '#1e293b', color: 'white', padding: '10px 20px', borderRadius: '12px', border: '1px solid #334155', cursor: 'pointer', transition: 'all 0.2s' }}
+            style={{ background: '#1e293b', color: 'white', padding: '10px 20px', borderRadius: '12px', border: '1px solid #334155', cursor: 'pointer', transition: 'all 0.2s', flexShrink: 0, whiteSpace: 'nowrap' }}
             onMouseOver={(e) => (e.currentTarget.style.background = '#334155')}
             onMouseOut={(e) => (e.currentTarget.style.background = '#1e293b')}
           >
@@ -232,14 +233,14 @@ const StationMasterDashboard = () => {
         </header>
 
         {/* Stats Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+        <div className="stats-grid">
           <StatCard title="Pending Approvals" value={stats.pending} icon={<Clock color="#f59e0b" />} color="rgba(245, 158, 11, 0.1)" />
           <StatCard title="Approved / Live" value={stats.approved} icon={<CheckCircle color="#22c55e" />} color="rgba(34, 197, 94, 0.1)" />
           <StatCard title="Estimated Revenue" value={`₹${stats.totalRevenue.toLocaleString()}`} icon={<TrendingUp color="#38bdf8" />} color="rgba(56, 189, 248, 0.1)" />
           <StatCard title="Station Users" value={stats.totalUsers} icon={<Users color="#a855f7" />} color="rgba(168, 85, 247, 0.1)" />
         </div>
 
-        <div style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+        <div className="bookings-table-wrapper" style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b', overflow: 'hidden', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
           <div style={{ padding: '25px', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.02)' }}>
             <h2 style={{ fontSize: '18px', fontWeight: 'bold' }}>Incoming Booking Requests</h2>
             <button onClick={() => fetchBookings()} style={{ background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', fontSize: '14px', fontWeight: '600' }}>Refresh Dashboard</button>

@@ -4,6 +4,7 @@ import L from 'leaflet';
 import { Navigation, Target, LogOut, AlertCircle } from 'lucide-react';
 import { fetchRoute } from '../services/routeService';
 import RoutePolyline from './RoutePolyline';
+import { logger } from '../utils/logger';
 
 interface LiveNavigationProps {
   stationLocation: [number, number];
@@ -51,7 +52,7 @@ const LiveNavigation = ({ stationLocation, onStop }: LiveNavigationProps) => {
         setUseFallback(false);
         lastRouteFetchRef.current = now;
       } catch (err) {
-        console.warn('OSRM routing failed, using fallback:', err);
+        logger.warn('OSRM routing failed, using fallback:', err);
         setUseFallback(true);
         // On failure, use direct line for polyline
         setRouteCoords([userCoords, stationLocation]);
@@ -65,7 +66,6 @@ const LiveNavigation = ({ stationLocation, onStop }: LiveNavigationProps) => {
       return;
     }
 
-    console.log('Starting stabilized GPS tracking...');
     watchIdRef.current = navigator.geolocation.watchPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -88,7 +88,7 @@ const LiveNavigation = ({ stationLocation, onStop }: LiveNavigationProps) => {
         }
       },
       (err) => {
-        console.error("GPS Error:", err);
+        logger.error('GPS Error:', err);
         setError(err.code === 1 ? "Location access denied." : "Waiting for GPS signal...");
       },
       { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 }

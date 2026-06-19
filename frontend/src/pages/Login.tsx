@@ -41,8 +41,8 @@ const Login = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', background: 'radial-gradient(circle at top right, #1e293b, #020617)' }}>
-      <div style={{ width: '100%', maxWidth: '400px', background: '#0f172a', padding: '40px', borderRadius: '24px', border: '1px solid #334155', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
+    <div className="auth-page">
+      <div className="auth-card">
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
           <div style={{ background: '#1a73e8', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px' }}>
             <LogIn color="white" size={28} />

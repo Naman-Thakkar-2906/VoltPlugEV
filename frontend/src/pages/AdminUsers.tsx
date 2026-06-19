@@ -3,6 +3,7 @@ import api from '../api/axios';
 import { Search, User as UserIcon, Mail, Calendar, Shield, MoreVertical } from 'lucide-react';
 import Loader from '../components/Loader';
 import EmptyState from '../components/EmptyState';
+import { logger } from '../utils/logger';
 
 interface UserItem {
   _id: string;
@@ -26,7 +27,7 @@ const AdminUsers = () => {
         setUsers(res.data);
       }
     } catch (error) {
-      console.error('Error fetching users:', error);
+      logger.error('Error fetching users:', error);
     } finally {
       setLoading(false);
     }
@@ -109,8 +110,8 @@ const AdminUsers = () => {
           subMessage={searchTerm ? `No results for "${searchTerm}"` : "The user list is currently empty."} 
         />
       ) : (
-        <div style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b', overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <div className="bookings-table-wrapper" style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b' }}>
+          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#1e293b' }}>
                 <th style={{ padding: '20px 24px', color: '#94a3b8', fontSize: '13px', fontWeight: '600' }}>USER</th>

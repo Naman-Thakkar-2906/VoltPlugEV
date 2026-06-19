@@ -7,6 +7,7 @@ import EmptyState from '../components/EmptyState';
 import { useAuth } from '../context/AuthContext';
 import { socketService } from '../services/socket';
 import { paymentService } from '../services/paymentService';
+import { logger } from '../utils/logger';
 
 interface Booking {
   _id: string;
@@ -45,7 +46,7 @@ const Dashboard = () => {
         setBookings(response.data);
       }
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      logger.error('Error fetching bookings:', error);
     } finally {
       if (!isSilent) setLoading(false);
     }
@@ -131,7 +132,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto', minHeight: '80vh', position: 'relative' }}>
+    <div className="dashboard-page" style={{ position: 'relative' }}>
       
       {/* Toast Notification */}
       {toast && (
@@ -155,14 +156,14 @@ const Dashboard = () => {
         </div>
       )}
 
-      <header style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+      <header className="dashboard-header">
         <div>
-          <h1 style={{ fontSize: '32px', marginBottom: '10px', fontWeight: 'bold' }}>Your Bookings</h1>
-          <p style={{ color: '#94a3b8' }}>Manage and track your EV charging history</p>
+          <h1>Your Bookings</h1>
+          <p style={{ color: '#94a3b8', fontSize: 'var(--text-base)' }}>Manage and track your EV charging history</p>
         </div>
         <button 
           onClick={() => fetchBookings()}
-          style={{ background: '#1e293b', color: 'white', border: '1px solid #334155', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', fontSize: '14px' }}
+          style={{ background: '#1e293b', color: 'white', border: '1px solid #334155', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', whiteSpace: 'nowrap', flexShrink: 0 }}
         >
           Refresh
         </button>
@@ -176,7 +177,7 @@ const Dashboard = () => {
           subMessage="Start by exploring charging stations on the map and book your first slot!" 
         />
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '25px' }}>
+        <div className="bookings-grid">
           {bookings.map((booking) => {
             const statusInfo = getStatusInfo(booking.status);
             return (

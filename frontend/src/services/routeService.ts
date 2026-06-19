@@ -7,6 +7,8 @@ export interface RouteResponse {
   summary: string;
 }
 
+import { logger } from '../utils/logger';
+
 /**
  * RouteService - Handles fetching directions from OSRM API
  */
@@ -43,7 +45,7 @@ export const fetchRoute = async (
     
     throw new Error('No route found');
   } catch (error) {
-    console.error('Error fetching route from OSRM:', error);
+    logger.error('Error fetching route from OSRM:', error);
     throw error;
   }
 };

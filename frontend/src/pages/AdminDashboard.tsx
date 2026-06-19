@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { socketService } from '../services/socket';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 
 interface Stats {
   totalUsers: number;
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
         setStats(res.data);
       }
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      logger.error('Error fetching stats:', error);
     } finally {
       setLoading(false);
     }
@@ -97,19 +98,19 @@ const AdminDashboard = () => {
         `}
       </style>
 
-      <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Dashboard Overview</h1>
-          <p style={{ color: '#94a3b8', fontSize: '16px' }}>Welcome back, Admin. Here's what's happening today.</p>
+          <h1 style={{ fontSize: 'clamp(20px,5vw,28px)', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Dashboard Overview</h1>
+          <p style={{ color: '#94a3b8', fontSize: 'var(--text-base)' }}>Welcome back, Admin. Here's what's happening today.</p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#0f172a', padding: '10px 20px', borderRadius: '14px', border: '1px solid #1e293b' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#0f172a', padding: '10px 20px', borderRadius: '14px', border: '1px solid #1e293b', flexShrink: 0 }}>
           <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 10px #22c55e' }}></div>
-          <span style={{ fontSize: '14px', fontWeight: '600', color: '#94a3b8' }}>Live System Status</span>
+          <span style={{ fontSize: '14px', fontWeight: '600', color: '#94a3b8' }}>Live</span>
         </div>
       </div>
 
       {/* Main Stats Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginBottom: '40px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,260px), 1fr))', gap: '24px', marginBottom: '40px' }}>
         {loading ? (
           [1, 2, 3, 4].map(i => <SkeletonCard key={i} />)
         ) : (
@@ -139,7 +140,7 @@ const AdminDashboard = () => {
         )}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%,360px), 1fr))', gap: '32px' }}>
         {/* Status Breakdown */}
         <div style={{ background: '#0f172a', borderRadius: '28px', border: '1px solid #1e293b', padding: '32px' }}>
           <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: 'white', marginBottom: '24px' }}>Booking Status Distribution</h3>

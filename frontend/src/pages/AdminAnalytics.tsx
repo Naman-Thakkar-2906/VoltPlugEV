@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../api/axios';
+import { logger } from '../utils/logger';
 import { 
   DollarSign, Calendar, 
   ArrowUpRight, PieChart, Activity
@@ -26,7 +27,7 @@ const AdminAnalytics = () => {
         setData(res.data);
       }
     } catch (error) {
-      console.error('Error fetching analytics:', error);
+      logger.error('Error fetching analytics:', error);
     } finally {
       setLoading(false);
     }
@@ -62,7 +63,7 @@ const AdminAnalytics = () => {
         <p style={{ color: '#94a3b8' }}>Real-time performance metrics and growth indicators</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))', gap: '32px' }}>
+      <div className="analytics-grid">
         
         {/* Bookings Trend Chart */}
         <div style={{ background: '#0f172a', borderRadius: '28px', border: '1px solid #1e293b', padding: '32px' }}>

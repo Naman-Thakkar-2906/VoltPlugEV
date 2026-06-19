@@ -1,4 +1,5 @@
 import api from '../api/axios';
+import { logger } from '../utils/logger';
 
 declare global {
   interface Window {
@@ -32,10 +33,10 @@ class PaymentService {
 
   async processPayment(bookingId: string, onSuccess: () => void, onError: (msg: string) => void) {
     try {
-      console.log('--- Payment Process Started ---');
+      logger.log('--- Payment Process Started ---');
       const isScriptLoaded = await this.loadRazorpayScript();
-      console.log('Razorpay Script Loaded:', isScriptLoaded);
-      console.log('window.Razorpay:', window.Razorpay);
+      logger.log('Razorpay Script Loaded:', isScriptLoaded);
+      logger.log('window.Razorpay:', window.Razorpay);
 
       if (!isScriptLoaded || !window.Razorpay) {
         onError('Razorpay SDK failed to load. Please check your connection.');
@@ -43,10 +44,10 @@ class PaymentService {
       }
 
       // 1. Create Order First
-      console.log('Creating order for booking:', bookingId);
+      logger.log('Creating order for booking:', bookingId);
       const orderResponse: any = await api.post('/payments/create-order', { bookingId });
       
-      console.log('Order Response:', orderResponse);
+      logger.log('Order Response:', orderResponse);
 
       if (!orderResponse.success) {
         onError(orderResponse.message || 'Failed to create payment order');
@@ -65,7 +66,7 @@ class PaymentService {
         image: 'https://cdn-icons-png.flaticon.com/512/3104/3104856.png',
         order_id: orderId,
         handler: async (response: any) => {
-          console.log('Razorpay Success Callback:', response);
+          logger.log('Razorpay Success Callback:', response);
           try {
             // 3. Verify Payment ONLY after success callback
             const verifyResponse: any = await api.post('/payments/verify', {
@@ -75,7 +76,7 @@ class PaymentService {
               bookingId,
             });
 
-            console.log('Verification Response:', verifyResponse);
+            logger.log('Verification Response:', verifyResponse);
 
             if (verifyResponse.success) {
               onSuccess();
@@ -83,7 +84,7 @@ class PaymentService {
               onError('Payment verification failed. Please contact support.');
             }
           } catch (error: any) {
-            console.error('Verification Error:', error);
+            logger.error('Verification Error:', error);
             onError('Error during payment verification');
           }
         },
@@ -96,17 +97,17 @@ class PaymentService {
         },
         modal: {
           ondismiss: () => {
-            console.log('Payment modal dismissed by user');
+            logger.log('Payment modal dismissed by user');
             onError('Payment cancelled');
           },
         },
       };
 
-      console.log('Opening Razorpay Modal with options:', options);
+      logger.log('Opening Razorpay Modal with options:', options);
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (error: any) {
-      console.error('Payment Process Error:', error);
+      logger.error('Payment Process Error:', error);
       onError('An error occurred while initializing payment');
     }
   }

@@ -3,6 +3,8 @@ import { io, Socket } from 'socket.io-client';
 const API_URL = import.meta.env.VITE_API_URL || 'https://voltplugev.onrender.com/api';
 const SOCKET_URL = API_URL.replace(/\/api$/, '');
 
+import { logger } from '../utils/logger';
+
 class SocketService {
     private socket: Socket | null = null;
 
@@ -15,11 +17,11 @@ class SocketService {
         });
 
         this.socket.on('connect', () => {
-            console.log('Connected to socket server');
+            logger.log('Connected to socket server');
         });
 
         this.socket.on('disconnect', () => {
-            console.log('Disconnected from socket server');
+            logger.log('Disconnected from socket server');
         });
     }
 

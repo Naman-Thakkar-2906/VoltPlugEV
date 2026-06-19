@@ -63,7 +63,6 @@ const createBooking = asyncHandler(async (req, res) => {
 
     // Emit to Station Master
     const io = getIO();
-    console.log(`Emitting newBookingRequest to room: stationMaster_${station.owner}`);
     io.to(`stationMaster_${station.owner.toString()}`).emit('newBookingRequest', {
         ...booking._doc,
         user: {
@@ -272,9 +271,6 @@ const getStationBookings = asyncHandler(async (req, res) => {
     const stations = await Station.find({ owner: req.user._id });
     const stationIds = stations.map(s => s._id);
 
-    console.log(`Station Master ID: ${req.user._id}`);
-    console.log(`Owned Stations Found: ${stationIds.length}`, stationIds);
-
     // 2. Find all bookings for these stations
     const bookings = await Booking.aggregate([
         { $match: { station: { $in: stationIds } } },
@@ -313,8 +309,6 @@ const getStationBookings = asyncHandler(async (req, res) => {
         },
         { $sort: { createdAt: -1 } }
     ]);
-
-    console.log(`Bookings Found for these stations: ${bookings.length}`);
 
     res.json({
         success: true,

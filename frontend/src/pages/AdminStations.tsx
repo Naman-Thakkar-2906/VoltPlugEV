@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import EmptyState from '../components/EmptyState';
 import { socketService } from '../services/socket';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 
 interface StationItem {
   _id: string;
@@ -79,7 +80,7 @@ const AdminStations = () => {
         setStations(res.data);
       }
     } catch (error) {
-      console.error('Error fetching stations:', error);
+      logger.error('Error fetching stations:', error);
     } finally {
       setLoading(false);
     }
@@ -92,7 +93,7 @@ const AdminStations = () => {
         setOwners(res.data);
       }
     } catch (error) {
-      console.error('Error fetching owners:', error);
+      logger.error('Error fetching owners:', error);
     }
   };
 
@@ -127,7 +128,7 @@ const AdminStations = () => {
         setStationStats(res.data);
       }
     } catch (error) {
-      console.error('Error fetching station stats:', error);
+      logger.error('Error fetching station stats:', error);
     } finally {
       setLoadingStats(false);
     }
@@ -208,10 +209,60 @@ const AdminStations = () => {
 
   return (
     <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px' }}>
+      <style>{`
+        .admin-stations-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 40px;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .admin-stations-header h1 {
+          font-size: clamp(20px, 5vw, 28px);
+          font-weight: bold;
+          color: white;
+          margin-bottom: 8px;
+        }
+        .station-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          gap: 20px;
+          margin-bottom: 32px;
+        }
+        .station-form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+        .modal-action-row {
+          display: flex;
+          justify-content: flex-end;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 480px) {
+          .station-form-grid {
+            grid-template-columns: 1fr;
+          }
+          .station-form-grid > div[style*="span 2"] {
+            grid-column: span 1;
+          }
+          .modal-action-row button {
+            flex: 1;
+          }
+          .station-detail-actions {
+            flex-direction: column;
+            align-items: stretch;
+          }
+        }
+      `}</style>
+
+      <div className="admin-stations-header">
         <div>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '8px' }}>Charging Stations</h1>
-          <p style={{ color: '#94a3b8' }}>Manage operations and monitor revenue across all locations</p>
+          <h1>Charging Stations</h1>
+          <p style={{ color: '#94a3b8', fontSize: 'var(--text-base)' }}>Manage operations and monitor revenue across all locations</p>
         </div>
         <button 
           onClick={() => handleOpenModal()}
@@ -226,7 +277,9 @@ const AdminStations = () => {
             fontWeight: '600',
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(56, 189, 248, 0.2)'
+            boxShadow: '0 4px 12px rgba(56, 189, 248, 0.2)',
+            whiteSpace: 'nowrap',
+            flexShrink: 0
           }}
         >
           <Plus size={20} /> Add Station
@@ -262,8 +315,8 @@ const AdminStations = () => {
           subMessage={searchTerm ? `No results for "${searchTerm}"` : "Get started by adding your first charging station."} 
         />
       ) : (
-        <div style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b', overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <div className="bookings-table-wrapper" style={{ background: '#0f172a', borderRadius: '24px', border: '1px solid #1e293b' }}>
+          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: '#1e293b' }}>
                 <th style={{ padding: '18px 24px', color: '#94a3b8', fontSize: '13px', fontWeight: '600' }}>STATION DETAILS</th>
@@ -393,7 +446,7 @@ const AdminStations = () => {
             <div style={{ padding: '32px' }}>
               {loadingStats ? <div style={{ padding: '40px 0' }}><Loader /></div> : (
                 <>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '32px' }}>
+                  <div className="station-stats-grid" style={{ marginBottom: '32px' }}>
                     <div style={{ background: '#1e293b40', padding: '20px', borderRadius: '20px', border: '1px solid #1e293b' }}>
                       <p style={{ color: '#64748b', fontSize: '13px', fontWeight: '600', marginBottom: '8px' }}>Total Revenue</p>
                       <h3 style={{ fontSize: '22px', fontWeight: 'bold', color: '#38bdf8' }}>₹{stationStats?.totalRevenue.toLocaleString()}</h3>
@@ -472,7 +525,7 @@ const AdminStations = () => {
             </div>
             
             <form onSubmit={handleSubmit} style={{ padding: '24px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+              <div className="station-form-grid">
                 <div style={{ gridColumn: 'span 2' }}>
                   <label style={{ display: 'block', color: '#94a3b8', fontSize: '13px', marginBottom: '8px' }}>Station Name</label>
                   <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -510,7 +563,7 @@ const AdminStations = () => {
                 </div>
               </div>
               
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px', marginTop: '30px' }}>
+              <div className="modal-action-row" style={{ marginTop: '30px' }}>
                 <button type="button" onClick={() => setShowModal(false)}
                   style={{ background: 'transparent', border: '1px solid #334155', color: 'white', padding: '12px 24px', borderRadius: '12px', cursor: 'pointer' }}>Cancel</button>
                 <button type="submit" disabled={submitting}

@@ -81,23 +81,8 @@ const Register = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px',
-      background: 'radial-gradient(circle at top right, #1e293b, #020617)',
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: '440px',
-        background: '#0f172a',
-        padding: '40px 36px',
-        borderRadius: '24px',
-        border: '1px solid #334155',
-        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.6)',
-      }}>
+    <div className="auth-page">
+      <div className="auth-card">
 
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <div style={{

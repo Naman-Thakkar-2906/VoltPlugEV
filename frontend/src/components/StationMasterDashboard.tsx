@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../api/axios';
 import { Check, X, Clock, Car, TrendingUp, Users, CheckCircle } from 'lucide-react';
 import Loader from './Loader';
+import { logger } from '../utils/logger';
 
 interface Booking {
   _id: string;
@@ -40,7 +41,7 @@ const StationMasterDashboard = () => {
         calculateStats(response.data);
       }
     } catch (error) {
-      console.error('Error fetching station bookings:', error);
+      logger.error('Error fetching station bookings:', error);
     } finally {
       setLoading(false);
     }

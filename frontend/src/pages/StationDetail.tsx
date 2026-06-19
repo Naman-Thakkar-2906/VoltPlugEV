@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { ArrowLeft, MapPin, Calendar, DollarSign, Zap, Clock, ShieldCheck } from 'lucide-react';
+import { logger } from '../utils/logger';
 
 interface StationStats {
   stationName: string;
@@ -25,7 +26,7 @@ const StationDetail = () => {
           setStats(res.data);
         }
       } catch (error) {
-        console.error('Error fetching station stats:', error);
+        logger.error('Error fetching station stats:', error);
       } finally {
         setLoading(false);
       }

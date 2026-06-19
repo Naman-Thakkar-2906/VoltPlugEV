@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import api from '../api/axios';
+import { logger } from '../utils/logger';
 import { 
   Calendar, User, MapPin, Clock, CheckCircle, XCircle, AlertCircle, 
   Search, Filter, ChevronLeft, ChevronRight, Eye, Phone, Mail, 
@@ -71,7 +72,7 @@ const AdminBookings = () => {
         setPage(res.data.currentPage);
       }
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      logger.error('Error fetching bookings:', error);
     } finally {
       setLoading(false);
     }

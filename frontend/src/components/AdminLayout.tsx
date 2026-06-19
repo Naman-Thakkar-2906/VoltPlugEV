@@ -7,6 +7,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { socketService } from '../services/socket';
 import api from '../api/axios';
+import { logger } from '../utils/logger';
 
 const AdminLayout = () => {
   const location = useLocation();
@@ -40,7 +41,7 @@ const AdminLayout = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching counters:', error);
+      logger.error('Error fetching counters:', error);
     }
   };
 

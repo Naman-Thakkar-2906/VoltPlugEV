@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Map, LayoutDashboard, LogOut, ShieldCheck, Zap } from 'lucide-react';
@@ -6,6 +7,13 @@ const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -13,6 +21,124 @@ const Navbar = () => {
   };
 
   const isActive = (path: string) => location.pathname === path;
+
+  if (isMobile) {
+    return (
+      <nav style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'rgba(15, 23, 42, 0.95)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        padding: '10px 12px calc(10px + env(safe-area-inset-bottom, 12px)) 12px',
+        borderTop: '1px solid rgba(51, 65, 85, 0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        zIndex: 2000,
+        boxShadow: '0 -8px 30px rgba(0, 0, 0, 0.6)'
+      }}>
+        <Link to="/" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          color: isActive('/') ? '#38bdf8' : '#94a3b8',
+          flex: 1,
+          transition: 'color 0.2s ease',
+          fontSize: '11px',
+          fontWeight: '500'
+        }}>
+          <Map size={20} color={isActive('/') ? '#38bdf8' : '#94a3b8'} />
+          <span>Explore</span>
+        </Link>
+
+        <Link to="/dashboard" style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '4px',
+          color: isActive('/dashboard') ? '#38bdf8' : '#94a3b8',
+          flex: 1,
+          transition: 'color 0.2s ease',
+          fontSize: '11px',
+          fontWeight: '500'
+        }}>
+          <LayoutDashboard size={20} color={isActive('/dashboard') ? '#38bdf8' : '#94a3b8'} />
+          <span>Bookings</span>
+        </Link>
+
+        {user?.role === 'stationMaster' && (
+          <Link to="/station-dashboard" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: isActive('/station-dashboard') ? '#38bdf8' : '#94a3b8',
+            flex: 1,
+            transition: 'color 0.2s ease',
+            fontSize: '11px',
+            fontWeight: '500'
+          }}>
+            <Zap size={20} color={isActive('/station-dashboard') ? '#38bdf8' : '#94a3b8'} />
+            <span>Owner</span>
+          </Link>
+        )}
+
+        {user?.role === 'admin' && (
+          <Link to="/admin" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: isActive('/admin') ? '#38bdf8' : '#94a3b8',
+            flex: 1,
+            transition: 'color 0.2s ease',
+            fontSize: '11px',
+            fontWeight: '500'
+          }}>
+            <ShieldCheck size={20} color={isActive('/admin') ? '#38bdf8' : '#94a3b8'} />
+            <span>Admin</span>
+          </Link>
+        )}
+
+        {isAuthenticated ? (
+          <button onClick={handleLogout} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: '#ef4444',
+            background: 'transparent',
+            border: 'none',
+            flex: 1,
+            fontSize: '11px',
+            fontWeight: '500',
+            cursor: 'pointer'
+          }}>
+            <LogOut size={20} color="#ef4444" />
+            <span>Logout</span>
+          </button>
+        ) : (
+          <Link to="/login" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '4px',
+            color: '#38bdf8',
+            flex: 1,
+            fontSize: '11px',
+            fontWeight: '500'
+          }}>
+            <LogOut size={20} color="#38bdf8" style={{ transform: 'rotate(180deg)' }} />
+            <span>Login</span>
+          </Link>
+        )}
+      </nav>
+    );
+  }
 
   return (
     <nav style={{ position: 'fixed', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)', padding: '8px 20px', borderRadius: '20px', border: '1px solid rgba(51, 65, 85, 0.5)', display: 'flex', alignItems: 'center', gap: '10px', zIndex: 2000, boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}>
@@ -49,7 +175,7 @@ const Navbar = () => {
                 <span style={{ fontSize: '12px', fontWeight: '600', color: 'white' }}>{user?.name}</span>
                 <span style={{ fontSize: '10px', color: '#94a3b8' }}>{user?.role?.toUpperCase()}</span>
              </div>
-             <button onClick={handleLogout} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: '12px' }}>
+             <button onClick={handleLogout} style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '10px', borderRadius: '12px', cursor: 'pointer' }}>
                <LogOut size={18} />
              </button>
           </div>

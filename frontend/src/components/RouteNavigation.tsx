@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchRoute } from '../services/routeService';
 import RoutePolyline from './RoutePolyline';
+import { logger } from '../utils/logger';
 
 interface RouteNavigationProps {
   userLocation: [number, number];
@@ -24,7 +25,7 @@ const RouteNavigation = ({ userLocation, stationLocation, onRouteInfo }: RouteNa
         }
         setUseFallback(false);
       } catch (err) {
-        console.warn('Static OSRM routing failed, using fallback:', err);
+        logger.warn('Static OSRM routing failed, using fallback:', err);
         setUseFallback(true);
         setRouteCoords([userLocation, stationLocation]);
         if (onRouteInfo) {

@@ -11,29 +11,24 @@ const init = (server) => {
     });
 
     io.on('connection', (socket) => {
-        console.log('New client connected:', socket.id);
 
         socket.on('join', (userId) => {
             socket.join(`user_${userId}`);
-            console.log(`User joined room: user_${userId}`);
         });
 
         socket.on('joinStationMaster', (ownerId) => {
             socket.join(`stationMaster_${ownerId}`);
-            console.log(`Station Master joined room: stationMaster_${ownerId}`);
         });
 
         socket.on('joinAdmin', (user) => {
             if (user && user.role === 'admin') {
                 socket.join('admin_room');
-                console.log('Admin joined room: admin_room');
             } else {
-                console.log('Unauthorized attempt to join admin room');
+                console.warn('[Security] Unauthorized attempt to join admin socket room:', socket.id);
             }
         });
 
         socket.on('disconnect', () => {
-            console.log('Client disconnected');
         });
     });
 
